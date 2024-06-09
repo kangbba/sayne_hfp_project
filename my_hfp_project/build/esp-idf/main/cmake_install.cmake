@@ -1,4 +1,4 @@
-# Install script for directory: /Users/ensayne/AndroidStudioProjects/my_hfp_project/main
+# Install script for directory: /Users/ensayne/AndroidStudioProjects/sayne_hfp_project/my_hfp_project/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

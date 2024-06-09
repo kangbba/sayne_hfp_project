@@ -1,6 +1,6 @@
 /* Automatically generated file; DO NOT EDIT */
 /* Espressif IoT Development Framework Linker Script */
-/* Generated from: /Users/ensayne/AndroidStudioProjects/my_hfp_project/build/esp-idf/esp_system/ld/sections.ld.in */
+/* Generated from: /Users/ensayne/AndroidStudioProjects/sayne_hfp_project/my_hfp_project/build/esp-idf/esp_system/ld/sections.ld.in */
 
 /*
  * SPDX-FileCopyrightText: 2021 Espressif Systems (Shanghai) CO LTD

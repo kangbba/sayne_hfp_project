@@ -30,7 +30,7 @@ esp_bd_addr_t peer_addr = {0};
 static char peer_bdname[ESP_BT_GAP_MAX_BDNAME_LEN + 1];
 static uint8_t peer_bdname_len;
 
-static const char remote_device_name[] = "ESP_HFP_AG";
+static const char remote_device_name[] = "CANDY";
 
 static bool get_name_from_eir(uint8_t *eir, char *bdname, uint8_t *bdname_len)
 {
@@ -231,7 +231,7 @@ static void bt_hf_client_hdl_stack_evt(uint16_t event, void *p_param)
     switch (event) {
     case BT_APP_EVT_STACK_UP: {
         /* set up device name */
-        char *dev_name = "ESP_HFP_HF";
+        char *dev_name = "CANDY";
         esp_bt_gap_set_device_name(dev_name);
 
         /* register GAP callback function */
