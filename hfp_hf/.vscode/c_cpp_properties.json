@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "ESP32",
+            "compilerPath": "/Users/ensayne/.espressif/tools/xtensa-esp32-elf/esp-12.0.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "includePath": [
+                "/Users/ensayne/esp/esp-idf/components/**",
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "/Users/ensayne/esp/esp-idf/components",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        }
+    ],
+    "version": 4
+}
