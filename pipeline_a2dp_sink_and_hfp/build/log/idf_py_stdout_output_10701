@@ -1,0 +1,138 @@
+[1/138] Building C object esp-idf/espcoredump/CMakeFiles/__idf_espcoredump.dir/src/core_dump_sha.c.obj
+[2/138] Building C object esp-idf/espcoredump/CMakeFiles/__idf_espcoredump.dir/src/core_dump_crc.c.obj
+[3/138] Building C object esp-idf/espcoredump/CMakeFiles/__idf_espcoredump.dir/src/port/xtensa/core_dump_port.c.obj
+[4/138] Building C object esp-idf/espcoredump/CMakeFiles/__idf_espcoredump.dir/src/core_dump_binary.c.obj
+[5/138] Building C object esp-idf/wifi_service/CMakeFiles/__idf_wifi_service.dir/src/wifi_service.c.obj
+FAILED: esp-idf/wifi_service/CMakeFiles/__idf_wifi_service.dir/src/wifi_service.c.obj 
+/Users/ensayne/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/bin/xtensa-esp32-elf-gcc -DADF_VER=\"v2.6-122-g28736657-dirty\" -DESP_PLATFORM -DIDF_VER=\"v5.4-dev-1030-g0479494e7a\" -DMBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -I/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/pipeline_a2dp_sink_and_hfp/build/config -I/Users/ensayne/esp/esp-adf/components/wifi_service/include -I/Users/ensayne/esp/esp-adf/components/wifi_service/inc -I/Users/ensayne/esp/esp-idf/components/newlib/platform_include -I/Users/ensayne/esp/esp-idf/components/freertos/config/include -I/Users/ensayne/esp/esp-idf/components/freertos/config/include/freertos -I/Users/ensayne/esp/esp-idf/components/freertos/config/xtensa/include -I/Users/ensayne/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include -I/Users/ensayne/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -I/Users/ensayne/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -I/Users/ensayne/esp/esp-idf/components/freertos/esp_additions/include -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/include -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/include/soc -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/include/soc/esp32 -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/dma/include -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/ldo/include -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/port/esp32/. -I/Users/ensayne/esp/esp-idf/components/esp_hw_support/port/esp32/include -I/Users/ensayne/esp/esp-idf/components/heap/include -I/Users/ensayne/esp/esp-idf/components/log/include -I/Users/ensayne/esp/esp-idf/components/soc/include -I/Users/ensayne/esp/esp-idf/components/soc/esp32 -I/Users/ensayne/esp/esp-idf/components/soc/esp32/include -I/Users/ensayne/esp/esp-idf/components/hal/platform_port/include -I/Users/ensayne/esp/esp-idf/components/hal/esp32/include -I/Users/ensayne/esp/esp-idf/components/hal/include -I/Users/ensayne/esp/esp-idf/components/esp_rom/include -I/Users/ensayne/esp/esp-idf/components/esp_rom/include/esp32 -I/Users/ensayne/esp/esp-idf/components/esp_rom/esp32 -I/Users/ensayne/esp/esp-idf/components/esp_common/include -I/Users/ensayne/esp/esp-idf/components/esp_system/include -I/Users/ensayne/esp/esp-idf/components/esp_system/port/soc -I/Users/ensayne/esp/esp-idf/components/esp_system/port/include/private -I/Users/ensayne/esp/esp-idf/components/xtensa/esp32/include -I/Users/ensayne/esp/esp-idf/components/xtensa/include -I/Users/ensayne/esp/esp-idf/components/xtensa/deprecated_include -I/Users/ensayne/esp/esp-idf/components/lwip/include -I/Users/ensayne/esp/esp-idf/components/lwip/include/apps -I/Users/ensayne/esp/esp-idf/components/lwip/include/apps/sntp -I/Users/ensayne/esp/esp-idf/components/lwip/lwip/src/include -I/Users/ensayne/esp/esp-idf/components/lwip/port/include -I/Users/ensayne/esp/esp-idf/components/lwip/port/freertos/include -I/Users/ensayne/esp/esp-idf/components/lwip/port/esp32xx/include -I/Users/ensayne/esp/esp-idf/components/lwip/port/esp32xx/include/arch -I/Users/ensayne/esp/esp-idf/components/lwip/port/esp32xx/include/sys -I/Users/ensayne/esp/esp-idf/components/bt/include/esp32/include -I/Users/ensayne/esp/esp-idf/components/bt/common/osi/include -I/Users/ensayne/esp/esp-idf/components/bt/common/api/include/api -I/Users/ensayne/esp/esp-idf/components/bt/common/btc/profile/esp/blufi/include -I/Users/ensayne/esp/esp-idf/components/bt/common/btc/profile/esp/include -I/Users/ensayne/esp/esp-idf/components/bt/common/hci_log/include -I/Users/ensayne/esp/esp-idf/components/bt/host/bluedroid/api/include/api -I/Users/ensayne/esp/esp-idf/components/bt/porting/ext/tinycrypt/include -I/Users/ensayne/esp/esp-idf/components/esp_timer/include -I/Users/ensayne/esp/esp-idf/components/esp_wifi/include -I/Users/ensayne/esp/esp-idf/components/esp_wifi/wifi_apps/include -I/Users/ensayne/esp/esp-idf/components/esp_wifi/wifi_apps/nan_app/include -I/Users/ensayne/esp/esp-idf/components/esp_wifi/include/local -I/Users/ensayne/esp/esp-idf/components/esp_event/include -I/Users/ensayne/esp/esp-idf/components/esp_phy/include -I/Users/ensayne/esp/esp-idf/components/esp_phy/esp32/include -I/Users/ensayne/esp/esp-idf/components/esp_netif/include -I/Users/ensayne/esp/esp-idf/components/mbedtls/port/include -I/Users/ensayne/esp/esp-idf/components/mbedtls/mbedtls/include -I/Users/ensayne/esp/esp-idf/components/mbedtls/mbedtls/library -I/Users/ensayne/esp/esp-idf/components/mbedtls/esp_crt_bundle/include -I/Users/ensayne/esp/esp-idf/components/mbedtls/mbedtls/3rdparty/everest/include -I/Users/ensayne/esp/esp-idf/components/mbedtls/mbedtls/3rdparty/p256-m -I/Users/ensayne/esp/esp-idf/components/mbedtls/mbedtls/3rdparty/p256-m/p256-m -I/Users/ensayne/esp/esp-idf/components/nvs_flash/include -I/Users/ensayne/esp/esp-idf/components/spi_flash/include -I/Users/ensayne/esp/esp-idf/components/esp_partition/include -I/Users/ensayne/esp/esp-adf/components/audio_sal/include -I/Users/ensayne/esp/esp-idf/components/efuse/include -I/Users/ensayne/esp/esp-idf/components/efuse/esp32/include -I/Users/ensayne/esp/esp-adf/components/esp_dispatcher/include -I/Users/ensayne/esp/esp-adf/components/esp_actions/include -mlongcalls -Wno-frame-address  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/pipeline_a2dp_sink_and_hfp=. -fmacro-prefix-map=/Users/ensayne/esp/esp-idf=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/wifi_service/CMakeFiles/__idf_wifi_service.dir/src/wifi_service.c.obj -MF esp-idf/wifi_service/CMakeFiles/__idf_wifi_service.dir/src/wifi_service.c.obj.d -o esp-idf/wifi_service/CMakeFiles/__idf_wifi_service.dir/src/wifi_service.c.obj -c /Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:61:5: error: expected specifier-qualifier-list before 'STAILQ_ENTRY'
+   61 |     STAILQ_ENTRY(wifi_setting_item)     next;
+      |     ^~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:67:9: error: function definition declared 'typedef'
+   67 | typedef STAILQ_HEAD(wifi_setting_list, wifi_setting_item) wifi_setting_list_t;
+      |         ^~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:67:9: error: return type defaults to 'int' [-Werror=implicit-int]
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c: In function 'STAILQ_HEAD':
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:67:59: error: expected declaration specifiers before 'wifi_setting_list_t'
+   67 | typedef STAILQ_HEAD(wifi_setting_list, wifi_setting_item) wifi_setting_list_t;
+      |                                                           ^~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:73:5: error: unknown type name 'wifi_setting_list_t'
+   73 |     wifi_setting_list_t                 setting_list;
+      |     ^~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:87:3: error: storage class specified for parameter 'wifi_service_t'
+   87 | } wifi_service_t;
+      |   ^~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:92:3: error: storage class specified for parameter 'wifi_serv_event_type_t'
+   92 | } wifi_serv_event_type_t;
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:95:5: error: expected specifier-qualifier-list before 'wifi_serv_event_type_t'
+   95 |     wifi_serv_event_type_t  msg_type;
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:99:3: error: storage class specified for parameter 'wifi_task_msg_t'
+   99 | } wifi_task_msg_t;
+      |   ^~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:102:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  102 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:116:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  116 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:132:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  132 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:238:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  238 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:245:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  245 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:267:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  267 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:277:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  277 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:284:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  284 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:290:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  290 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:502:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  502 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:508:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  508 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:514:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  514 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:529:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  529 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:537:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  537 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:548:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  548 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:556:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  556 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:564:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  564 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:572:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  572 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:580:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  580 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:587:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  587 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:594:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  594 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:612:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  612 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:626:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  626 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:632:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+  632 | {
+      | ^
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:67:9: error: type of 'wifi_setting_list' defaults to 'int' [-Werror=implicit-int]
+   67 | typedef STAILQ_HEAD(wifi_setting_list, wifi_setting_item) wifi_setting_list_t;
+      |         ^~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:67:9: error: type of 'wifi_setting_item' defaults to 'int' [-Werror=implicit-int]
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:99:3: error: declaration for parameter 'wifi_task_msg_t' but no such parameter
+   99 | } wifi_task_msg_t;
+      |   ^~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:92:3: error: declaration for parameter 'wifi_serv_event_type_t' but no such parameter
+   92 | } wifi_serv_event_type_t;
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:87:3: error: declaration for parameter 'wifi_service_t' but no such parameter
+   87 | } wifi_service_t;
+      |   ^~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:690: error: expected '{' at end of input
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:690: error: control reaches end of non-void function [-Werror=return-type]
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c: At top level:
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:48:18: error: 'WIFI_TASK_DESTROY_BIT' defined but not used [-Werror=unused-const-variable=]
+   48 | const static int WIFI_TASK_DESTROY_BIT  = BIT0;
+      |                  ^~~~~~~~~~~~~~~~~~~~~
+/Users/ensayne/esp/esp-adf/components/wifi_service/src/wifi_service.c:47:20: warning: 'TAG' defined but not used [-Wunused-variable]
+   47 | static const char *TAG                  = "WIFI_SERV";
+      |                    ^~~
+cc1: some warnings being treated as errors
+[6/138] Building C object esp-idf/espcoredump/CMakeFiles/__idf_espcoredump.dir/src/core_dump_elf.c.obj
+[7/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/http_playlist.c.obj
+[8/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/raw_stream.c.obj
+[9/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/tone_stream.c.obj
+[10/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/spiffs_stream.c.obj
+[11/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/fatfs_stream.c.obj
+[12/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/embed_flash_stream.c.obj
+[13/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/tcp_client_stream.c.obj
+[14/138] Building C object esp-idf/audio_stream/CMakeFiles/__idf_audio_stream.dir/http_stream.c.obj
+ninja: build stopped: subcommand failed.

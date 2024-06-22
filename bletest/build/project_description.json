@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "bletest",
-    "project_version":    "3b51dadc-dirty",
+    "project_version":    "4299124f-dirty",
     "project_path":       "/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/bletest",
     "idf_path":           "/Users/ensayne/esp/v5.2.2/esp-idf",
     "build_dir":          "/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/bletest/build",

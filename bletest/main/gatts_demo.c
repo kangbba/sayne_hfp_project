@@ -3,234 +3,206 @@
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/event_groups.h"
-#include "esp_system.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "esp_bt.h"
-
 #include "esp_gap_ble_api.h"
 #include "esp_gatts_api.h"
-#include "esp_bt_defs.h"
 #include "esp_bt_main.h"
+#include "esp_bt_defs.h"
 #include "esp_gatt_common_api.h"
 
-#define GATTS_TAG "CANDY_ABCD"
-#define BLE_DEVICE_NAME "CANDY_ABCD"
+// 로그 태그 정의
+#define GATTS_TAG "GATTS_DEMO"
 
-#define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID_RX "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define CHARACTERISTIC_UUID_TX "beb5483e-36e1-4688-b7f5-ea07361b26a9"
+// 서비스 및 특성 UUID 정의
+#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-// 서비스 UUID: 4B9131C3-C9C5-CC8F-9E45-B51F01C2AF4F
-static uint8_t service_uuid[16] = {
-    0x4F, 0xAF, 0xC2, 0x01, 0x1F, 0xB5, 0x45, 0x9E, 0x8F, 0xCC, 0xC5, 0xC9, 0xC3, 0x31, 0x4B, 0x91
-};
+// 디바이스 이름 정의
+#define DEVICE_NAME "TamiOn_3708"
 
-// 특성 UUID RX: A8261B36-07EA-F5B7-8846-E1363E48B5BE
-static uint8_t char_uuid_rx[16] = {
-    0xBE, 0xB5, 0x48, 0x3E, 0x36, 0xE1, 0x46, 0x88, 0xB7, 0xF5, 0xEA, 0x07, 0x36, 0x1B, 0x26, 0xA8
-};
+// 서비스 핸들 정의
+static uint16_t service_handle;
+static uint16_t char_handle;
 
-// 특성 UUID TX: beb5483e-36e1-4688-b7f5-ea07361b26a9
-static uint8_t char_uuid_tx[16] = {
-    0xBE, 0xB5, 0x48, 0x3E, 0x36, 0xE1, 0x46, 0x88, 0xB7, 0xF5, 0xEA, 0x07, 0x36, 0x1B, 0x26, 0xA9
-};
+// 128비트 UUID 변환 함수
+static void convert_str_to_uuid128(const char* str, esp_bt_uuid_t* uuid) {
+    uint8_t *p = uuid->uuid.uuid128;
+    int i, j;
+    for (i = 0, j = 0; i < 16; ++i, j += 2) {
+        p[i] = (str[j] >= 'a' ? (str[j] - 'a' + 10) : (str[j] - '0')) << 4;
+        p[i] |= (str[j + 1] >= 'a' ? (str[j + 1] - 'a' + 10) : (str[j + 1] - '0'));
+    }
+}
 
 // 광고 데이터 설정
+static uint8_t adv_service_uuid128[16] = {
+    0x4b, 0x91, 0x31, 0xc3, 0xc5, 0xc9, 0xcc, 0x8f, 
+    0x9e, 0x45, 0xb5, 0x1f, 0x01, 0xc2, 0xaf
+};
+
 static esp_ble_adv_data_t adv_data = {
-    .set_scan_rsp = false,
-    .include_name = true,
-    .include_txpower = false,
-    .min_interval = 0x0006,
-    .max_interval = 0x0010,
-    .appearance = 0x00,
-    .manufacturer_len = 0,
-    .p_manufacturer_data = NULL,
-    .service_data_len = 0,
-    .p_service_data = NULL,
-    .service_uuid_len = 16,
-    .p_service_uuid = service_uuid,
-    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
+    .set_scan_rsp = false,            // 스캔 응답 패킷 설정 (false: 광고 패킷 사용)
+    .include_name = true,             // 디바이스 이름 포함 여부 (true)
+    .include_txpower = false,         // TX 전력 포함 여부 (false)
+    .min_interval = 0x0006,           // 광고 최소 간격
+    .max_interval = 0x0010,           // 광고 최대 간격
+    .appearance = 0x00,               // 외형 설정 (0x00: 기본 값)
+    .manufacturer_len = 0,            // 제조사 데이터 길이 (0)
+    .p_manufacturer_data = NULL,      // 제조사 데이터 포인터 (NULL)
+    .service_data_len = 0,            // 서비스 데이터 길이 (0)
+    .p_service_data = NULL,           // 서비스 데이터 포인터 (NULL)
+    .service_uuid_len = 16,           // 서비스 UUID 길이 (16: 128비트 UUID)
+    .p_service_uuid = adv_service_uuid128, // 서비스 UUID 포인터
+    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT) // 광고 플래그 설정
 };
 
+// 광고 파라미터 설정
 static esp_ble_adv_params_t adv_params = {
-    .adv_int_min = 0x20,
-    .adv_int_max = 0x40,
-    .adv_type = ADV_TYPE_IND,
-    .own_addr_type = BLE_ADDR_TYPE_PUBLIC,
-    .channel_map = ADV_CHNL_ALL,
-    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
+    .adv_int_min = 0x20,             // 광고 최소 간격
+    .adv_int_max = 0x40,             // 광고 최대 간격
+    .adv_type = ADV_TYPE_IND,        // 광고 타입 (일반 광고)
+    .own_addr_type = BLE_ADDR_TYPE_PUBLIC, // 디바이스 주소 타입
+    .channel_map = ADV_CHNL_ALL,     // 사용 채널 맵 (모든 채널)
+    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY, // 광고 필터 정책
 };
 
-
-static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param) {
+// GAP 이벤트 핸들러
+void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param) {
+    ESP_LOGI(GATTS_TAG, "GAP event handler, event: %d", event);
     switch (event) {
         case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
             esp_ble_gap_start_advertising(&adv_params);
             break;
-        case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
-            if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
-                ESP_LOGE(GATTS_TAG, "Advertising start failed");
-            } else {
-                ESP_LOGI(GATTS_TAG, "Advertising start successfully");
-            }
-            break;
         default:
             break;
     }
 }
 
-static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
+// GATT 서버 이벤트 핸들러
+void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
+    static esp_gatt_srvc_id_t service_id;
+
+    ESP_LOGI(GATTS_TAG, "GATT event handler, event: %d", event);
+
     switch (event) {
-        case ESP_GATTS_START_EVT:
-            ESP_LOGI(GATTS_TAG, "SERVICE_START_EVT, status %d, service_handle %d",
-                     param->start.status, param->start.service_handle);
+        case ESP_GATTS_REG_EVT: {
+            // 서비스 ID 설정
+            service_id.is_primary = true;
+            service_id.id.inst_id = 0x00;
+            service_id.id.uuid.len = ESP_UUID_LEN_128;
+            convert_str_to_uuid128(SERVICE_UUID, &service_id.id.uuid);
+
+            // 서비스 생성
+            esp_ble_gatts_create_service(gatts_if, &service_id, 4);
             break;
+        }
+        case ESP_GATTS_CREATE_EVT: {
+            service_handle = param->create.service_handle;
+            esp_ble_gatts_start_service(service_handle);
 
-       case ESP_GATTS_REG_EVT:
-            ESP_LOGI(GATTS_TAG, "REGISTER_APP_EVT, status %d, app_id %d", param->reg.status, param->reg.app_id);
+            esp_bt_uuid_t char_uuid;
+            char_uuid.len = ESP_UUID_LEN_128;
+            convert_str_to_uuid128(CHARACTERISTIC_UUID, &char_uuid);
 
-            esp_ble_gap_set_device_name(BLE_DEVICE_NAME);
-            esp_ble_gap_config_adv_data(&adv_data);
-
-            esp_gatt_srvc_id_t service_id = {
-                .is_primary = true,
-                .id.inst_id = 0x00,
-                .id.uuid.len = ESP_UUID_LEN_128,
-            };
-            memcpy(service_id.id.uuid.uuid.uuid128, service_uuid, ESP_UUID_LEN_128);
-            esp_ble_gatts_create_service(gatts_if, &service_id, 8);
+            esp_gatt_char_prop_t property = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
+            esp_ble_gatts_add_char(service_handle, &char_uuid,
+                                   ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+                                   property, NULL, NULL);
             break;
+        }
+        case ESP_GATTS_ADD_CHAR_EVT: {
+            char_handle = param->add_char.attr_handle;
+            break;
+        }
+        case ESP_GATTS_WRITE_EVT: {
+            if (param->write.handle == char_handle) {
+                ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, value len %d, value :", param->write.len);
+                esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
 
+                // 수신된 데이터를 문자열로 변환
+                char recv_data[256];
+                snprintf(recv_data, sizeof(recv_data), "%.*s", param->write.len, (char*)param->write.value);
+                ESP_LOGI(GATTS_TAG, "Received string: %s", recv_data);
 
-         case ESP_GATTS_CREATE_EVT:
-            ESP_LOGI(GATTS_TAG, "CREATE_SERVICE_EVT, status %d, service_handle %d", param->create.status, param->create.service_handle);
-            esp_ble_gatts_start_service(param->create.service_handle);
-
-            esp_bt_uuid_t tx_char_uuid = {
-                .len = ESP_UUID_LEN_128,
-            };
-            memcpy(tx_char_uuid.uuid.uuid128, char_uuid_tx, ESP_UUID_LEN_128);
-
-            esp_bt_uuid_t rx_char_uuid = {
-                .len = ESP_UUID_LEN_128,
-            };
-            memcpy(rx_char_uuid.uuid.uuid128, char_uuid_rx, ESP_UUID_LEN_128);
-
-            esp_gatt_char_prop_t char_property = ESP_GATT_CHAR_PROP_BIT_NOTIFY | ESP_GATT_CHAR_PROP_BIT_WRITE;
-
-            // RX 특성 추가
-            esp_err_t add_char_ret = esp_ble_gatts_add_char(param->create.service_handle, &rx_char_uuid,
-                                                            ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
-                                                            char_property, NULL, NULL);
-            if (add_char_ret) {
-                ESP_LOGE(GATTS_TAG, "add RX char failed, error code =%x", add_char_ret);
-            } else {
-                ESP_LOGI(GATTS_TAG, "add RX char successful");
-            }
-
-            // TX 특성 추가
-            add_char_ret = esp_ble_gatts_add_char(param->create.service_handle, &tx_char_uuid,
-                                                  ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
-                                                  char_property, NULL, NULL);
-            if (add_char_ret) {
-                ESP_LOGE(GATTS_TAG, "add TX char failed, error code =%x", add_char_ret);
-            } else {
-                ESP_LOGI(GATTS_TAG, "add TX char successful");
+                // 수신된 데이터로 클라이언트에게 알림 (Notify)
+                esp_ble_gatts_send_indicate(gatts_if, param->write.conn_id, char_handle, param->write.len, param->write.value, false);
             }
             break;
-
-         case ESP_GATTS_ADD_CHAR_EVT:
-            ESP_LOGI(GATTS_TAG, "ADD_CHAR_EVT, status %d,  attr_handle %d, service_handle %d",
-                     param->add_char.status, param->add_char.attr_handle, param->add_char.service_handle);
-            // 디스크립터 추가
-            esp_bt_uuid_t descr_uuid = {
-                .len = ESP_UUID_LEN_16,
-                .uuid.uuid16 = ESP_GATT_UUID_CHAR_CLIENT_CONFIG,
-            };
-            esp_err_t add_descr_ret = esp_ble_gatts_add_char_descr(param->add_char.service_handle, &descr_uuid,
-                                                                   ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE, NULL, NULL);
-            if (add_descr_ret) {
-                ESP_LOGE(GATTS_TAG, "add char descr failed, error code =%x", add_descr_ret);
-            } else {
-                ESP_LOGI(GATTS_TAG, "add char descr successful");
-            }
-            break;
-
-        case ESP_GATTS_CONNECT_EVT:
-            ESP_LOGI(GATTS_TAG, "ESP_GATTS_CONNECT_EVT, conn_id %d", param->connect.conn_id);
-            ESP_LOGI(GATTS_TAG, "Connected device address: %02x:%02x:%02x:%02x:%02x:%02x",
-                     param->connect.remote_bda[0], param->connect.remote_bda[1], param->connect.remote_bda[2],
-                     param->connect.remote_bda[3], param->connect.remote_bda[4], param->connect.remote_bda[5]);
-            ESP_LOGI(GATTS_TAG, "Service UUID: %s", SERVICE_UUID);
-            ESP_LOGI(GATTS_TAG, "Characteristic UUID RX: %s", CHARACTERISTIC_UUID_RX);
-            ESP_LOGI(GATTS_TAG, "Characteristic UUID TX: %s", CHARACTERISTIC_UUID_TX);
-            break;
-        case ESP_GATTS_WRITE_EVT:
-            ESP_LOGI(GATTS_TAG, "ESP_GATTS_WRITE_EVT, conn_id %d, trans_id %" PRIu32 ", handle %" PRIu16, 
-                     param->write.conn_id, param->write.trans_id, param->write.handle);
-            ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, value len %d, value :", param->write.len);
-            esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
-            
-            // Send response if needed
-            if (param->write.need_rsp) {
-                esp_ble_gatts_send_response(gatts_if, param->write.conn_id, param->write.trans_id, ESP_GATT_OK, NULL);
-            }
-            break;
-
-        case ESP_GATTS_READ_EVT:
-            ESP_LOGI(GATTS_TAG, "ESP_GATTS_READ_EVT, conn_id %d, trans_id %" PRIu32 ", handle %" PRIu16, 
-                     param->read.conn_id, param->read.trans_id, param->read.handle);
-            // Prepare a response
-            esp_gatt_rsp_t rsp;
-            memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
-            rsp.attr_value.handle = param->read.handle;
-            rsp.attr_value.len = 4;  // Example length
-            rsp.attr_value.value[0] = 0xde;  // Example data
-            rsp.attr_value.value[1] = 0xad;
-            rsp.attr_value.value[2] = 0xbe;
-            rsp.attr_value.value[3] = 0xef;
-            esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id, ESP_GATT_OK, &rsp);
-            break;
-
-        case ESP_GATTS_DISCONNECT_EVT:
-            ESP_LOGI(GATTS_TAG, "ESP_GATTS_DISCONNECT_EVT, reason %d", param->disconnect.reason);
-            esp_ble_gap_start_advertising(&adv_params);
-            break;
-
+        }
         default:
             break;
     }
 }
 
+// 앱 메인 함수
 void app_main(void) {
     esp_err_t ret;
 
-    // Initialize NVS
+    // NVS 초기화
+    ESP_LOGI(GATTS_TAG, "Initializing NVS");
     ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_LOGI(GATTS_TAG, "Erasing NVS flash");
         ESP_ERROR_CHECK(nvs_flash_erase());
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
 
-    // Initialize BLE
-    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
+    // BT 컨트롤러 초기화
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_bt_controller_init(&bt_cfg));
-    ESP_ERROR_CHECK(esp_bt_controller_enable(ESP_BT_MODE_BTDM));
-    ESP_ERROR_CHECK(esp_bluedroid_init());
-    ESP_ERROR_CHECK(esp_bluedroid_enable());
+    ESP_LOGI(GATTS_TAG, "Initializing BT controller");
+    ret = esp_bt_controller_init(&bt_cfg);
+    if (ret) {
+        ESP_LOGE(GATTS_TAG, "Initialize controller failed: %s", esp_err_to_name(ret));
+        return;
+    }
 
-    // Register GAP callback
-    ESP_ERROR_CHECK(esp_ble_gap_register_callback(gap_event_handler));
+    // BT 컨트롤러 활성화
+    ESP_LOGI(GATTS_TAG, "Enabling BT controller");
+    ret = esp_bt_controller_enable(ESP_BT_MODE_BTDM);
+    if (ret) {
+        ESP_LOGE(GATTS_TAG, "Enable controller failed: %s", esp_err_to_name(ret));
+        return;
+    }
 
-    // Register GATT callback
-    ESP_ERROR_CHECK(esp_ble_gatts_register_callback(gatts_profile_event_handler));
-    ESP_ERROR_CHECK(esp_ble_gatts_app_register(0));
-    ESP_ERROR_CHECK(esp_ble_gatt_set_local_mtu(500));
+    // Bluedroid 초기화
+    ESP_LOGI(GATTS_TAG, "Initializing Bluedroid");
+    ret = esp_bluedroid_init();
+    if (ret) {
+        ESP_LOGE(GATTS_TAG, "Initialize Bluedroid failed: %s", esp_err_to_name(ret));
+        return;
+    }
 
-    // Set advertisement data
-    ESP_ERROR_CHECK(esp_ble_gap_config_adv_data(&adv_data));
+    // Bluedroid 활성화
+    ESP_LOGI(GATTS_TAG, "Enabling Bluedroid");
+    ret = esp_bluedroid_enable();
+    if (ret) {
+        ESP_LOGE(GATTS_TAG, "Enable Bluedroid failed: %s", esp_err_to_name(ret));
+        return;
+    }
+
+    // GAP 및 GATT 콜백 함수 등록
+    ESP_LOGI(GATTS_TAG, "Registering GAP and GATT callbacks");
+    esp_ble_gap_register_callback(gap_event_handler);
+    esp_ble_gatts_register_callback(gatts_event_handler);
+
+    // GATT 앱 등록
+    ESP_LOGI(GATTS_TAG, "Registering GATT application");
+    esp_ble_gatts_app_register(0);
+
+    // 디바이스 이름 설정 및 광고 데이터 설정
+    ESP_LOGI(GATTS_TAG, "Setting device name and configuring advertising data");
+    ret = esp_ble_gap_set_device_name(DEVICE_NAME);
+    if (ret){
+        ESP_LOGE(GATTS_TAG, "Set device name failed: %s", esp_err_to_name(ret));
+        return;
+    }
+
+    ret = esp_ble_gap_config_adv_data(&adv_data);
+    if (ret){
+        ESP_LOGE(GATTS_TAG, "Configure advertising data failed: %s", esp_err_to_name(ret));
+        return;
+    }
 }

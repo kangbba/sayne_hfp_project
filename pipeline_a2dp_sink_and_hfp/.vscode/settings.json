@@ -1,0 +1,17 @@
+{
+    "idf.flashType": "UART",
+    "idf.adapterTargetName": "esp32",
+    "idf.port": "/dev/cu.usbserial-1320",
+    "idf.espIdfPath": "/Users/ensayne/esp/esp-idf",
+    "idf.pythonBinPath": "/usr/bin/python3",
+    "idf.customExtraVars": {
+        "IDF_PATH": "/Users/ensayne/esp/esp-idf",
+        "ADF_PATH": "/Users/ensayne/esp/esp-adf"
+    },
+    "terminal.integrated.env.osx": {
+        "IDF_PATH": "/Users/ensayne/esp/esp-idf",
+        "ADF_PATH": "/Users/ensayne/esp/esp-adf",
+        "PATH": "${env:PATH}:/Users/ensayne/esp/esp-idf/tools"
+    }
+}
+

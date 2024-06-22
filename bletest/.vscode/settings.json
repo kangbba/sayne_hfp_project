@@ -14,5 +14,8 @@
     "idf.port": "/dev/cu.usbserial-1320",
     "idf.pythonBinPath": "/Users/ensayne/.espressif/python_env/idf5.2_py3.9_env/bin/python",
     "idf.toolsPath": "/Users/ensayne/.espressif",
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "files.associations": {
+        "esp_gatt_common_api.h": "c"
+    }
 }
