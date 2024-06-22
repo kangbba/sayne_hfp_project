@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/CMakeFiles/bootloader
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/CMakeFiles/bootloader.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/CMakeFiles/bootloader-complete.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/ensayne/AndroidStudioProjects/sayne_hfp_project/gatt_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
